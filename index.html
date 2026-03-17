@@ -323,27 +323,166 @@ tbody td{padding:11px 16px;font-size:13px;vertical-align:middle}
 
       <!-- ── D2: 청구 목록 ── -->
       <div class="view" id="v-claims">
-        <div class="page-title">청구 목록</div>
-        <div class="page-sub">전체 247건</div>
-        <div class="table-card">
-          <div class="tab-row">
-            <button class="tab-btn active" onclick="filterClaims('all',this)">전체 (247)</button>
-            <button class="tab-btn" onclick="filterClaims('a',this)">TYPE A (38)</button>
-            <button class="tab-btn" onclick="filterClaims('b',this)">TYPE B (61)</button>
-            <button class="tab-btn" onclick="filterClaims('c',this)">TYPE C (148)</button>
-            <button class="tab-btn" onclick="filterClaims('done',this)">처리 완료</button>
+        <!-- 헤더 + 검색 -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px">
+          <div>
+            <div class="page-title" style="margin-bottom:2px">청구 목록</div>
+            <div class="page-sub" style="margin-bottom:0">이번 달 247건 · 승인 대기 <span style="color:var(--red);font-weight:700">3건</span></div>
           </div>
-          <table>
-            <thead><tr><th>청구번호</th><th>단지·내용</th><th>접수일</th><th>유형</th><th>신뢰도</th><th>상태</th><th>액션</th></tr></thead>
-            <tbody id="claimsBody">
-              <tr data-type="c" onclick="go('type-c')"><td style="color:var(--s);font-size:11px">CLM-0247</td><td><div style="font-weight:600">헬리오시티 102동 1204호</div><div style="font-size:11px;color:var(--s)">천장 급배수 누수</div></td><td style="font-size:12px;color:var(--s)">2026-03-14</td><td><span class="badge bc">TYPE C</span></td><td style="font-weight:600;color:var(--green)">97.1%</td><td><span class="status-pill s-done">적산 완료</span></td><td><button class="btn btn-p" onclick="event.stopPropagation();go('type-c')" style="padding:4px 10px;font-size:11px">상세</button></td></tr>
-              <tr data-type="a" onclick="go('type-a')"><td style="color:var(--s);font-size:11px">CLM-0246</td><td><div style="font-weight:600">마포래미안 803호</div><div style="font-size:11px;color:var(--s)">외벽 수직 관통균열</div></td><td style="font-size:12px;color:var(--s)">2026-03-13</td><td><span class="badge ba">TYPE A</span></td><td style="font-weight:600;color:var(--green)">91.2%</td><td><span class="status-pill s-transfer">소송 이관</span></td><td><button class="btn btn-p" onclick="event.stopPropagation();go('type-a')" style="padding:4px 10px;font-size:11px">상세</button></td></tr>
-              <tr data-type="b" onclick="go('type-b')"><td style="color:var(--s);font-size:11px">CLM-0245</td><td><div style="font-weight:600">잠실파크리오 1205호</div><div style="font-size:11px;color:var(--s)">세탁기 배수 연결 불량</div></td><td style="font-size:12px;color:var(--s)">2026-03-13</td><td><span class="badge bb">TYPE B</span></td><td style="font-weight:600;color:var(--green)">95.8%</td><td><span class="status-pill s-sent">의견서 발송</span></td><td><button class="btn btn-p" onclick="event.stopPropagation();go('type-b')" style="padding:4px 10px;font-size:11px">상세</button></td></tr>
-              <tr data-type="c" onclick="go('approve')"><td style="color:var(--s);font-size:11px">CLM-0244</td><td><div style="font-weight:600">은평뉴타운 관리동</div><div style="font-size:11px;color:var(--s)">엘리베이터 낙상 사고</div></td><td style="font-size:12px;color:var(--s)">2026-03-12</td><td><span class="badge bc">TYPE C</span></td><td style="font-weight:600;color:var(--green)">98.3%</td><td><span class="status-pill s-wait">승인 대기</span></td><td><button class="btn btn-g" onclick="event.stopPropagation();go('approve')" style="padding:4px 10px;font-size:11px">승인</button></td></tr>
-              <tr data-type="a" onclick="go('type-a')"><td style="color:var(--s);font-size:11px">CLM-0243</td><td><div style="font-weight:600">송도더샵 A동 201호</div><div style="font-size:11px;color:var(--s)">시공 하자 침하</div></td><td style="font-size:12px;color:var(--s)">2026-03-12</td><td><span class="badge ba">TYPE A</span></td><td style="font-weight:600;color:var(--amber)">88.7%</td><td><span class="status-pill s-transfer">소송 이관</span></td><td><button class="btn btn-p" onclick="event.stopPropagation();go('type-a')" style="padding:4px 10px;font-size:11px">상세</button></td></tr>
-              <tr data-type="b" data-status="done" onclick="go('type-b')"><td style="color:var(--s);font-size:11px">CLM-0242</td><td><div style="font-weight:600">분당파크뷰 502호</div><div style="font-size:11px;color:var(--s)">바닥재 파손</div></td><td style="font-size:12px;color:var(--s)">2026-03-11</td><td><span class="badge bb">TYPE B</span></td><td style="font-weight:600;color:var(--green)">93.1%</td><td><span class="status-pill s-done">처리 완료</span></td><td><button class="btn btn-s" onclick="event.stopPropagation();go('opinion')" style="padding:4px 10px;font-size:11px">의견서</button></td></tr>
-            </tbody>
-          </table>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="position:relative">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--s)"><circle cx="11" cy="11" r="7" stroke="#94A3B8" stroke-width="1.8"/><path d="M20 20l-3-3" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <input id="claimSearch" type="text" placeholder="단지명·청구번호·내용 검색" oninput="searchClaims(this.value)" style="padding:7px 12px 7px 32px;border:1px solid var(--b);border-radius:7px;font-size:13px;font-family:inherit;width:220px;outline:none;background:var(--card);color:var(--t);transition:border .12s" onfocus="this.style.borderColor='var(--p)'" onblur="this.style.borderColor='var(--b)'">
+            </div>
+            <select id="sortSelect" onchange="sortClaims(this.value)" style="padding:7px 10px;border:1px solid var(--b);border-radius:7px;font-size:12px;font-family:inherit;background:var(--card);color:var(--t);outline:none;cursor:pointer">
+              <option value="date">접수일 최신순</option>
+              <option value="conf">신뢰도 높은순</option>
+              <option value="status">상태별</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 분할 레이아웃: 목록 + 미리보기 -->
+        <div id="claimsLayout" style="display:flex;gap:14px;height:calc(100vh - 160px)">
+
+          <!-- 왼쪽: 목록 -->
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0;background:var(--card);border-radius:10px;border:1px solid var(--b);overflow:hidden">
+            <!-- 탭 필터 -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--b);flex-shrink:0">
+              <div class="tab-row" style="padding:0;border-bottom:none">
+                <button class="tab-btn active" onclick="filterClaims('all',this)">전체 <span style="font-size:10px;background:var(--b2);padding:1px 6px;border-radius:10px;margin-left:3px">247</span></button>
+                <button class="tab-btn" onclick="filterClaims('a',this)">TYPE A <span style="font-size:10px;background:var(--al);color:var(--amber);padding:1px 6px;border-radius:10px;margin-left:3px">38</span></button>
+                <button class="tab-btn" onclick="filterClaims('b',this)">TYPE B <span style="font-size:10px;background:var(--rl);color:var(--red);padding:1px 6px;border-radius:10px;margin-left:3px">61</span></button>
+                <button class="tab-btn" onclick="filterClaims('c',this)">TYPE C <span style="font-size:10px;background:var(--gl);color:var(--green);padding:1px 6px;border-radius:10px;margin-left:3px">148</span></button>
+                <button class="tab-btn" onclick="filterClaims('wait',this)">승인 대기 <span style="font-size:10px;background:var(--rl);color:var(--red);padding:1px 6px;border-radius:10px;margin-left:3px">3</span></button>
+                <button class="tab-btn" onclick="filterClaims('done',this)">완료</button>
+              </div>
+            </div>
+
+            <!-- 테이블 헤더 -->
+            <div style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:8px 16px;background:var(--b2);font-size:10px;font-weight:700;color:var(--s);text-transform:uppercase;letter-spacing:.4px;flex-shrink:0;border-bottom:1px solid var(--b)">
+              <span>청구번호</span><span>단지·내용</span><span>접수일</span><span>신뢰도</span><span>상태</span><span style="text-align:right">액션</span>
+            </div>
+
+            <!-- 행 목록 -->
+            <div style="overflow-y:auto;flex:1" id="claimsBody">
+
+              <!-- TYPE C · 승인 대기 (우선 강조) -->
+              <div class="cl-row" data-type="c" data-status="wait" data-search="clm-0244 은평뉴타운 엘리베이터 낙상" onclick="showPreview('clm0244')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;background:#FFFBEB;border-left:3px solid var(--red)">
+                <div style="font-size:11px;color:var(--s)">CLM-0244</div>
+                <div><div style="font-weight:600;font-size:13px">은평뉴타운 관리동</div><div style="font-size:11px;color:var(--s)">엘리베이터 낙상 사고</div></div>
+                <div style="font-size:12px;color:var(--s)">03-12</div>
+                <div style="font-weight:700;color:var(--green);font-size:13px">98.3%</div>
+                <div><span class="status-pill s-wait">승인 대기</span></div>
+                <div style="text-align:right"><button class="btn btn-g" onclick="event.stopPropagation();go('approve')" style="padding:4px 10px;font-size:11px">지금 승인</button></div>
+              </div>
+
+              <!-- TYPE C -->
+              <div class="cl-row" data-type="c" data-status="done" data-search="clm-0247 헬리오시티 천장 누수" onclick="showPreview('clm0247')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;border-left:3px solid var(--green)">
+                <div style="font-size:11px;color:var(--s)">CLM-0247</div>
+                <div><div style="font-weight:600;font-size:13px">헬리오시티 102동 1204호</div><div style="font-size:11px;color:var(--s)">천장 급배수 누수</div></div>
+                <div style="font-size:12px;color:var(--s)">03-14</div>
+                <div style="font-weight:700;color:var(--green);font-size:13px">97.1%</div>
+                <div><span class="status-pill s-done">적산 완료</span></div>
+                <div style="text-align:right"><button class="btn btn-p" onclick="event.stopPropagation();go('type-c')" style="padding:4px 10px;font-size:11px">상세</button></div>
+              </div>
+
+              <!-- TYPE A -->
+              <div class="cl-row" data-type="a" data-status="transfer" data-search="clm-0246 마포래미안 외벽 균열" onclick="showPreview('clm0246')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;border-left:3px solid var(--amber)">
+                <div style="font-size:11px;color:var(--s)">CLM-0246</div>
+                <div><div style="font-weight:600;font-size:13px">마포래미안 803호</div><div style="font-size:11px;color:var(--s)">외벽 수직 관통균열</div></div>
+                <div style="font-size:12px;color:var(--s)">03-13</div>
+                <div style="font-weight:700;color:var(--green);font-size:13px">91.2%</div>
+                <div><span class="status-pill s-transfer">소송 이관</span></div>
+                <div style="text-align:right"><button class="btn btn-s" onclick="event.stopPropagation();go('type-a')" style="padding:4px 10px;font-size:11px">증거 패키지</button></div>
+              </div>
+
+              <!-- TYPE B -->
+              <div class="cl-row" data-type="b" data-status="sent" data-search="clm-0245 잠실파크리오 세탁기 배수" onclick="showPreview('clm0245')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;border-left:3px solid var(--red)">
+                <div style="font-size:11px;color:var(--s)">CLM-0245</div>
+                <div><div style="font-weight:600;font-size:13px">잠실파크리오 1205호</div><div style="font-size:11px;color:var(--s)">세탁기 배수 연결 불량</div></div>
+                <div style="font-size:12px;color:var(--s)">03-13</div>
+                <div style="font-weight:700;color:var(--green);font-size:13px">95.8%</div>
+                <div><span class="status-pill s-sent">의견서 발송</span></div>
+                <div style="text-align:right"><button class="btn btn-s" onclick="event.stopPropagation();go('type-b')" style="padding:4px 10px;font-size:11px">이의신청 확인</button></div>
+              </div>
+
+              <!-- TYPE A 2 -->
+              <div class="cl-row" data-type="a" data-status="transfer" data-search="clm-0243 송도더샵 시공 하자 침하" onclick="showPreview('clm0243')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;border-left:3px solid var(--amber)">
+                <div style="font-size:11px;color:var(--s)">CLM-0243</div>
+                <div><div style="font-weight:600;font-size:13px">송도더샵 A동 201호</div><div style="font-size:11px;color:var(--s)">시공 하자 — 바닥 침하</div></div>
+                <div style="font-size:12px;color:var(--s)">03-12</div>
+                <div style="font-weight:700;color:var(--amber);font-size:13px">88.7%</div>
+                <div><span class="status-pill s-transfer">소송 이관</span></div>
+                <div style="text-align:right"><button class="btn btn-s" onclick="event.stopPropagation();go('type-a')" style="padding:4px 10px;font-size:11px">증거 패키지</button></div>
+              </div>
+
+              <!-- TYPE B 완료 -->
+              <div class="cl-row" data-type="b" data-status="done" data-search="clm-0242 분당파크뷰 바닥재 파손" onclick="showPreview('clm0242')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;border-left:3px solid var(--b);opacity:.75">
+                <div style="font-size:11px;color:var(--s)">CLM-0242</div>
+                <div><div style="font-weight:600;font-size:13px">분당파크뷰 502호</div><div style="font-size:11px;color:var(--s)">바닥재 파손</div></div>
+                <div style="font-size:12px;color:var(--s)">03-11</div>
+                <div style="font-weight:700;color:var(--green);font-size:13px">93.1%</div>
+                <div><span class="status-pill s-done">처리 완료</span></div>
+                <div style="text-align:right"><button class="btn btn-s" onclick="event.stopPropagation();go('opinion')" style="padding:4px 10px;font-size:11px">의견서</button></div>
+              </div>
+
+              <!-- TYPE C 완료 2 -->
+              <div class="cl-row" data-type="c" data-status="done" data-search="clm-0241 래미안 원베일리 누수" onclick="showPreview('clm0247')" style="display:grid;grid-template-columns:90px 1fr 80px 80px 120px 90px;padding:11px 16px;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;align-items:center;border-left:3px solid var(--green);opacity:.75">
+                <div style="font-size:11px;color:var(--s)">CLM-0241</div>
+                <div><div style="font-weight:600;font-size:13px">래미안 원베일리 301호</div><div style="font-size:11px;color:var(--s)">욕실 배관 누수</div></div>
+                <div style="font-size:12px;color:var(--s)">03-10</div>
+                <div style="font-weight:700;color:var(--green);font-size:13px">99.1%</div>
+                <div><span class="status-pill s-done">지급 완료</span></div>
+                <div style="text-align:right"><button class="btn btn-s" onclick="event.stopPropagation();" style="padding:4px 10px;font-size:11px">내역서</button></div>
+              </div>
+
+              <div id="noResult" style="display:none;text-align:center;padding:48px 24px;color:var(--s)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="margin:0 auto 10px;display:block;opacity:.3"><circle cx="11" cy="11" r="7" stroke="#64748B" stroke-width="1.5"/><path d="M20 20l-3-3" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>
+                검색 결과가 없습니다
+              </div>
+            </div>
+
+            <!-- 하단 요약 -->
+            <div style="padding:9px 16px;background:var(--b2);border-top:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;font-size:11px;color:var(--s)">
+              <span id="listCount">전체 247건 표시 중</span>
+              <div style="display:flex;gap:16px">
+                <span>TYPE A <strong style="color:var(--amber)">38건</strong></span>
+                <span>TYPE B <strong style="color:var(--red)">61건</strong></span>
+                <span>TYPE C <strong style="color:var(--green)">148건</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 오른쪽: 미리보기 패널 -->
+          <div id="previewPanel" style="width:300px;flex-shrink:0;background:var(--card);border-radius:10px;border:1px solid var(--b);overflow:hidden;display:flex;flex-direction:column;transition:all .2s">
+
+            <!-- 기본 빈 상태 -->
+            <div id="previewEmpty" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center;color:var(--s)">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="opacity:.25;margin-bottom:12px"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#64748B" stroke-width="1.5"/></svg>
+              <div style="font-size:13px;font-weight:600;margin-bottom:4px">청구 건을 선택하세요</div>
+              <div style="font-size:12px;line-height:1.6">행을 클릭하면<br>요약 정보가 여기 표시됩니다</div>
+            </div>
+
+            <!-- 미리보기 내용 (동적) -->
+            <div id="previewContent" style="display:none;flex:1;overflow-y:auto;flex-direction:column">
+              <div style="padding:14px 16px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:flex-start">
+                <div>
+                  <div id="pv-badge" style="margin-bottom:5px"></div>
+                  <div id="pv-title" style="font-size:14px;font-weight:700;letter-spacing:-.3px;line-height:1.4"></div>
+                  <div id="pv-num" style="font-size:11px;color:var(--s);margin-top:2px"></div>
+                </div>
+                <button onclick="closePreview()" style="border:none;background:var(--bg);border-radius:5px;width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--s);flex-shrink:0">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div style="padding:12px 16px;flex:1">
+                <div id="pv-body"></div>
+              </div>
+              <div style="padding:12px 16px;border-top:1px solid var(--b);display:flex;gap:7px" id="pv-actions"></div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -776,11 +915,66 @@ function go(id){
   document.querySelector('.main').scrollTop=0;
 }
 function filterClaims(type,btn){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.closest('.tab-row').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('#claimsBody tr').forEach(row=>{
-    row.style.display=(type==='all'||row.dataset.type===type||(type==='done'&&row.dataset.status==='done'))?'':'none';
+  let vis=0;
+  document.querySelectorAll('#claimsBody .cl-row').forEach(row=>{
+    let show=false;
+    if(type==='all') show=true;
+    else if(type==='a'||type==='b'||type==='c') show=row.dataset.type===type;
+    else if(type==='wait') show=row.dataset.status==='wait';
+    else if(type==='done') show=row.dataset.status==='done';
+    row.style.display=show?'':'none';
+    if(show)vis++;
   });
+  document.getElementById('listCount').textContent=vis+'건 표시 중';
+  document.getElementById('noResult').style.display=vis?'none':'block';
+}
+function searchClaims(q){
+  q=q.toLowerCase().trim();
+  let vis=0;
+  document.querySelectorAll('#claimsBody .cl-row').forEach(row=>{
+    const match=!q||row.dataset.search.includes(q);
+    row.style.display=match?'':'none';
+    if(match)vis++;
+  });
+  document.getElementById('listCount').textContent=vis+'건 표시 중';
+  document.getElementById('noResult').style.display=vis?'none':'block';
+}
+function sortClaims(val){
+  const body=document.getElementById('claimsBody');
+  const rows=[...body.querySelectorAll('.cl-row')];
+  const order={'wait':0,'transfer':1,'sent':2,'done':3};
+  if(val==='status') rows.sort((a,b)=>(order[a.dataset.status]||9)-(order[b.dataset.status]||9));
+  else if(val==='conf') rows.sort((a,b)=>{const ag=parseFloat(a.querySelectorAll('div')[3]?.textContent)||0,bg=parseFloat(b.querySelectorAll('div')[3]?.textContent)||0;return bg-ag;});
+  rows.forEach(r=>body.insertBefore(r,document.getElementById('noResult')));
+}
+
+const pvData={
+  'clm0247':{badge:'<span class="badge bc">TYPE C — 보험 지급</span>',title:'헬리오시티 102동 1204호',sub:'CLM-0247 · 2026-03-14 09:23',body:`<div class="kv"><span class="kv-label">피해 내용</span><span class="kv-val">천장 급배수 누수</span></div><div class="kv"><span class="kv-label">AI 산출액</span><span class="kv-val" style="color:var(--green);font-size:15px">607,850원</span></div><div class="kv"><span class="kv-label">신뢰도</span><span class="kv-val" style="color:var(--green)">97.1%</span></div><div class="kv"><span class="kv-label">상태</span><span class="status-pill s-done">적산 완료</span></div><div class="kv" style="border:none"><span class="kv-label">업체 견적 대비</span><span class="kv-val" style="color:var(--amber)">-28.5% 절감</span></div>`,actions:`<button class="btn btn-g" style="flex:1;justify-content:center" onclick="go('approve')">승인 처리</button><button class="btn btn-s" onclick="go('estimation')">내역서</button>`},
+  'clm0246':{badge:'<span class="badge ba">TYPE A — 하자소송</span>',title:'마포래미안 803호',sub:'CLM-0246 · 2026-03-13 14:05',body:`<div class="kv"><span class="kv-label">피해 내용</span><span class="kv-val">외벽 수직 관통균열</span></div><div class="kv"><span class="kv-label">균열 폭</span><span class="kv-val" style="color:var(--amber)">0.8mm (허용 0.3mm)</span></div><div class="kv"><span class="kv-label">신뢰도</span><span class="kv-val" style="color:var(--green)">91.2%</span></div><div class="kv"><span class="kv-label">처리</span><span class="kv-val" style="color:var(--amber)">보험 면책 · 소송 이관</span></div><div class="kv" style="border:none"><span class="kv-label">청구 예상액</span><span class="kv-val" style="color:var(--p)">약 38,000,000원</span></div>`,actions:`<button class="btn btn-p" style="flex:1;justify-content:center" onclick="go('type-a')">소송 현황 보기</button><button class="btn btn-s" onclick="showToast('증거 패키지 다운로드')">증거 패키지</button>`},
+  'clm0245':{badge:'<span class="badge bb">TYPE B — 면책</span>',title:'잠실파크리오 1205호',sub:'CLM-0245 · 2026-03-13 11:30',body:`<div class="kv"><span class="kv-label">피해 내용</span><span class="kv-val">세탁기 배수 연결 불량</span></div><div class="kv"><span class="kv-label">판단</span><span class="kv-val" style="color:var(--red)">점유자 과실</span></div><div class="kv"><span class="kv-label">신뢰도</span><span class="kv-val" style="color:var(--green)">95.8%</span></div><div class="kv"><span class="kv-label">의견서</span><span class="status-pill s-sent">발송 완료</span></div><div class="kv" style="border:none"><span class="kv-label">이의신청</span><span class="kv-val">접수 없음 (잔여 17일)</span></div>`,actions:`<button class="btn btn-p" style="flex:1;justify-content:center" onclick="go('type-b')">면책 관리</button><button class="btn btn-s" onclick="go('opinion')">의견서</button>`},
+  'clm0244':{badge:'<span class="badge bc" style="background:var(--rl);color:var(--red)">TYPE C — 승인 대기</span>',title:'은평뉴타운 관리동',sub:'CLM-0244 · 2026-03-12 15:44',body:`<div style="background:var(--rl);border-radius:6px;padding:9px 11px;margin-bottom:10px;font-size:12px;color:var(--red);font-weight:600">손해사정사 승인이 필요합니다</div><div class="kv"><span class="kv-label">피해 내용</span><span class="kv-val">엘리베이터 낙상 사고</span></div><div class="kv"><span class="kv-label">AI 산출액</span><span class="kv-val" style="color:var(--green);font-size:15px">1,240,000원</span></div><div class="kv"><span class="kv-label">신뢰도</span><span class="kv-val" style="color:var(--green)">98.3%</span></div><div class="kv" style="border:none"><span class="kv-label">대기 시간</span><span class="kv-val" style="color:var(--red)">18시간 초과</span></div>`,actions:`<button class="btn btn-g" style="flex:1;justify-content:center" onclick="go('approve')">지금 승인</button><button class="btn btn-s" onclick="go('type-c')">상세 보기</button>`},
+  'clm0243':{badge:'<span class="badge ba">TYPE A — 하자소송</span>',title:'송도더샵 A동 201호',sub:'CLM-0243 · 2026-03-12 10:12',body:`<div class="kv"><span class="kv-label">피해 내용</span><span class="kv-val">시공 하자 — 바닥 침하</span></div><div class="kv"><span class="kv-label">신뢰도</span><span class="kv-val" style="color:var(--amber)">88.7%</span></div><div class="kv"><span class="kv-label">처리</span><span class="status-pill s-transfer">소송 이관</span></div><div class="kv" style="border:none"><span class="kv-label">단지 소송</span><span class="kv-val" style="color:var(--p)">진행 중</span></div>`,actions:`<button class="btn btn-p" style="flex:1;justify-content:center" onclick="go('type-a')">소송 현황 보기</button>`},
+  'clm0242':{badge:'<span class="badge bb">TYPE B — 완료</span>',title:'분당파크뷰 502호',sub:'CLM-0242 · 2026-03-11 09:03',body:`<div class="kv"><span class="kv-label">피해 내용</span><span class="kv-val">바닥재 파손</span></div><div class="kv"><span class="kv-label">결과</span><span class="kv-val">면책 · 종결</span></div><div class="kv" style="border:none"><span class="kv-label">의견서</span><span class="status-pill s-done">발송 완료</span></div>`,actions:`<button class="btn btn-s" style="flex:1;justify-content:center" onclick="go('opinion')">의견서 확인</button>`},
+};
+function showPreview(id){
+  document.querySelectorAll('.cl-row').forEach(r=>r.style.background=r.dataset.status==='wait'?'#FFFBEB':'');
+  event.currentTarget.style.background='#EEF2FF';
+  const d=pvData[id]; if(!d)return;
+  document.getElementById('previewEmpty').style.display='none';
+  const pc=document.getElementById('previewContent');
+  pc.style.display='flex';
+  document.getElementById('pv-badge').innerHTML=d.badge;
+  document.getElementById('pv-title').textContent=d.title;
+  document.getElementById('pv-num').textContent=d.sub;
+  document.getElementById('pv-body').innerHTML=d.body;
+  document.getElementById('pv-actions').innerHTML=d.actions;
+}
+function closePreview(){
+  document.getElementById('previewEmpty').style.display='flex';
+  document.getElementById('previewContent').style.display='none';
+  document.querySelectorAll('.cl-row').forEach(r=>r.style.background=r.dataset.status==='wait'?'#FFFBEB':'');
 }
 const faceStates=['2026-03-13 법률 의견서와 함께 면책 사유 발송 완료. 이의신청 기한: 30일','이의신청이 수신되었습니다. 황해 법무팀 검토 중입니다.','황해 법무팀이 이의신청을 재검토하고 있습니다. 추가 서류가 요청될 수 있습니다.','최종 종결 처리되었습니다. 청구인에게 최종 결정 통보가 발송되었습니다.'];
 function setFaceState(idx,el){document.querySelectorAll('.sf-item').forEach(s=>s.classList.remove('active'));el.classList.add('active');document.getElementById('faceStateDetail').textContent=faceStates[idx];}
